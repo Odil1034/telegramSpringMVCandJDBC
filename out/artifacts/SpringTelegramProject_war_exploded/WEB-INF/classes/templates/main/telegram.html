@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram - Web</title>
+    <link rel="stylesheet" href="/static/css/telegram.css">
+</head>
+<body>
+<div class="telegram-container">
+    <!-- Sidebar for Contacts -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Telegram</h2>
+            <h2 th:text="${user.getUsername()}+'  TELEGRAMI'">Telegram</h2>
+            <form action="main/telegram/searchContacts" method="post">
+                <label for="search"></label><input type="text" id="search" name="searchUsername"
+                                                   placeholder="Search contacts">
+            </form>
+        </div>
+        <ul class="contact-list">
+            <div th:if="${userChats != null}">
+                <li th:each="chat : ${userChats}" class="contact-item active">
+                    <form th:action="@{|/chat?chatId=${chat.getId()}|}" method="post">
+                        <img src="https://randomuser.me/api/portraits/med/women/6.jpg" alt="User Image"
+                             class="contact-image">
+                        <div class="contact-info">
+                            <h3 th:if="${chat.getUser1Id() == user.getId()}">
+                                <span th:each="user : ${users}">
+                                    <th:block th:if="${user.getId()==chat.getUser2Id()}">
+                                        <h1 th:text="${user.getUsername()}"></h1>
+                                    </th:block>
+                                    <th:block th:unless="${user.getId()==chat.getUser2Id()}"></th:block>
+                                </span>
+                            </h3>
+                            <h3 th:unless="${chat.getUser2Id() == user.getId()}">
+                                <span th:each="user : ${users}">
+                                    <th:block th:if="${user.getId()==chat.getUser1Id()}">
+                                        <h1 th:text="${user.getUsername()}"></h1>
+                                        <th:block th:unless="${user.getId()==chat.getUser2Id()}"></th:block>
+                                    </th:block>
+                                </span>
+                            </h3>
+                        </div>
+                        <span class="contact-time">11:30 AM</span>
+                    </form>
+                </li>
+            </div>
+            <div th:if="${userChats == null}">
+                <div class="container mt-5">
+                    <h1 class="mb-3">Select a User</h1>
+                    <form action="/chat/create" method="post">
+                        <div class="form-group">
+                            <label for="userSelect">Choose a user:</label>
+                            <select id="userSelect" class="form-control" name="userId" required>
+                                <option value="" disabled selected>Select a user</option>
+                                <option th:each="user : ${users}" th:value="${user.getId()}"
+                                        th:text="${user.getUsername()}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success mb-3">Start Chat</button>
+                    </form>
+                </div>
+            </div>
+        </ul>
+    </div>
+
+    <div th:if="${chat}" class="chat-area">
+        <div class="chat-header">
+            <img src="https://via.placeholder.com/50" alt="User Image" class="chat-header-image">
+            <div class="chat-header-info">
+                <h3 th:text="${user.getUsername()}"></h3>
+                <p>Online</p>
+            </div>
+            <div class="chat-header-actions">
+                <button class="chat-action">Search</button>
+                <button class="chat-action">Options</button>
+            </div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <div th:each="message : ${messages}"
+                 th:class="${message.getOwnerId() == user.getId()} ? 'message received' : 'message sent'">
+                <p th:text="${message.text}"></p>
+                <span class="message-time" th:text="${message.getUpdatedAt()}"></span>
+            </div>
+        </div>
+        <div class="chat-input">
+            <label for="messageInput"></label><input type="text" id="messageInput" name="sendMessage" placeholder="Type a message">
+            <button id="sendMessageButton">Send</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
