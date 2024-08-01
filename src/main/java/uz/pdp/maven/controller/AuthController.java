@@ -1,6 +1,5 @@
 package uz.pdp.maven.controller;
 
-import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.Part;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +8,6 @@ import org.springframework.web.servlet.ModelAndView;
 import uz.pdp.maven.dto.LoginDto;
 import uz.pdp.maven.dto.SignupDto;
 import uz.pdp.maven.model.chat.Chat;
-import uz.pdp.maven.model.message.Message;
 import uz.pdp.maven.model.upload.Upload;
 import uz.pdp.maven.model.user.User;
 import uz.pdp.maven.service.ChatService;
@@ -19,7 +17,6 @@ import uz.pdp.maven.service.UserService;
 
 import java.util.List;
 
-@MultipartConfig
 @Controller
 public class AuthController {
 

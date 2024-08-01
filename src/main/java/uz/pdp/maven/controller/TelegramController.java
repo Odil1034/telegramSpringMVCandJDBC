@@ -20,14 +20,18 @@ import java.util.List;
 @Controller
 public class TelegramController {
 
-    @Autowired
     private UserService userService;
-    @Autowired
     private MessageService messageService;
-    @Autowired
     private ChatService chatService;
-    @Autowired
     private UploadService uploadService;
+
+    @Autowired
+    public TelegramController(UserService userService, MessageService messageService, ChatService chatService, UploadService uploadService) {
+        this.userService = userService;
+        this.messageService = messageService;
+        this.chatService = chatService;
+        this.uploadService = uploadService;
+    }
 
     @GetMapping("main/telegram")
     public String telegram() {
@@ -51,7 +55,7 @@ public class TelegramController {
     }
 
     @GetMapping("/chat/create/{userId}")
-    public ModelAndView chatCreate(@PathVariable(value = "userId") String userId){
+    public ModelAndView chatCreate(@PathVariable(value = "userId") String userId) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/main/telegram");
         User user = userService.get(userId);
@@ -62,8 +66,7 @@ public class TelegramController {
 
     @PostMapping("/chat/create")
     public ModelAndView chatCreate(@RequestParam(value = "user1Id") String user1Id,
-                                   @RequestParam(value = "user2Id") String user2Id)
-    {
+                                   @RequestParam(value = "user2Id") String user2Id) {
         ModelAndView modelAndView = new ModelAndView();
 
         Chat chat = chatService.getChat(user1Id, user2Id);
@@ -77,7 +80,7 @@ public class TelegramController {
     }
 
     @PostMapping("main/telegram/searchContacts")
-    public ModelAndView searchContacts(@RequestParam(value = "searchUsername") String searchUsername){
+    public ModelAndView searchContacts(@RequestParam(value = "searchUsername") String searchUsername) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("main/telegram");
 

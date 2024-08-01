@@ -8,9 +8,7 @@ import org.springframework.stereotype.Component;
 import uz.pdp.maven.dto.LoginDto;
 import uz.pdp.maven.model.user.User;
 
-import java.sql.Array;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
