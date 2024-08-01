@@ -1,4 +1,15 @@
 package uz.pdp.maven.dto;
 
-public record SignupDto(String username, String firstName, String email, String password) {
+import jakarta.servlet.http.Part;
+
+public record SignupDto(
+        String name,
+        String username,
+        String email,
+        Integer age,
+        Part upload,
+        String password,
+        String confirmPassword
+) {
 }
+

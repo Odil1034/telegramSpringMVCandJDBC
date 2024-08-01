@@ -10,7 +10,7 @@ public class DispatcherServletConfig extends AbstractAnnotationConfigDispatcherS
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[]{WebMVCConfig.class};
+        return new Class[]{JdbcConfig.class, WebMVCConfig.class};
     }
 
     @Override
